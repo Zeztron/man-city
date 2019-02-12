@@ -7,7 +7,7 @@ export default class Stripes extends Component {
     state = {
         stripes: [
             {
-                background: '#ffffff',
+                background: '#98c5e9',
                 left: 120,
                 rotate: 25,
                 top: -260,
@@ -21,7 +21,7 @@ export default class Stripes extends Component {
                 delay: 200
             },
             {
-                background: "#ffffff",
+                background: "#98c5e9",
                 left: 600,
                 rotate: 25,
                 top: -498,
@@ -36,7 +36,7 @@ export default class Stripes extends Component {
                 key={i}
                 show={true}
                 start={{
-                    background: '#ffffff',
+                    background: stripe.background,
                     opacity: 0,
                     left: 0,
                     rotate: 0,
@@ -48,7 +48,7 @@ export default class Stripes extends Component {
                     left: [stripe.left],
                     rotate:[stripe.rotate],
                     top: [stripe.top],
-                    timing: {delay: 500, duration: 300, ease: easePolyOut}
+                    timing: {delay: stripe.delay, duration: 700, ease: easePolyOut}
                 }}
             >
                 {({ background, opacity, left, rotate, top }) => {

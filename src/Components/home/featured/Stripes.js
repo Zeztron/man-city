@@ -4,19 +4,74 @@ import Animate from "react-move/Animate";
 
 export default class Stripes extends Component {
 
-    showStripes = () => {
-        return (
-            <div>
-                stripes
-            </div>
-        )
+    state = {
+        stripes: [
+            {
+                background: '#ffffff',
+                left: 120,
+                rotate: 25,
+                top: -260,
+                delay: 0
+            },
+            {
+                background: "#ffffff",
+                left: 360,
+                rotate: 25,
+                top: -397,
+                delay: 200
+            },
+            {
+                background: "#ffffff",
+                left: 600,
+                rotate: 25,
+                top: -498,
+                delay: 400
+            }
+        ]
     }
+
+    showStripes = () => (
+        this.state.stripes.map((stripe, i) => (
+            <Animate
+                key={i}
+                show={true}
+                start={{
+                    background: '#ffffff',
+                    opacity: 0,
+                    left: 0,
+                    rotate: 0,
+                    top: 0
+                }}
+                enter={{
+                    background: [stripe.background],
+                    opacity: [1],
+                    left: [stripe.left],
+                    rotate:[stripe.rotate],
+                    top: [stripe.top],
+                    timing: {delay: 500, duration: 300, ease: easePolyOut}
+                }}
+            >
+                {({ background, opacity, left, rotate, top }) => {
+                    return (
+                        <div
+                            className="stripe"
+                            style={{
+                                background,
+                                opacity,
+                                transform: `rotate(${rotate}deg) translate(${left}px, ${top}px)`
+                            }}
+                        ></div>
+                    );
+                }}
+            </Animate>
+        ))
+    )
 
     render() {
         return (
-        <div className="featured_stripes">
-            {this.showStripes()}
-        </div>
+            <div className="featured_stripes">
+                {this.showStripes()}
+            </div>
         )
     }
 }

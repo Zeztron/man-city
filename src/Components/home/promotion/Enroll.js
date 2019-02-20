@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Fade from 'react-reveal/Fade';
 import FormFields from '../../ui/formFields';
 import { validate } from '../../ui/misc';
+import { firebasePromotions } from '../../../firebase';
 
 export default class Enroll extends Component {
 
@@ -48,7 +49,7 @@ export default class Enroll extends Component {
 
     }
 
-    resetFormSuccess() {
+    resetFormSuccess(type) {
         const newFormData = { ...this.state.formData }
 
         for(let key in newFormData) {
@@ -60,9 +61,8 @@ export default class Enroll extends Component {
         this.setState({
             formError: false,
             formData: newFormData,
-            formSuccess: 'Congratulations'
+            formSuccess: type ? 'Congratulations' : 'Already on the database'
         })
-
         this.successMessage();
 
     }
@@ -87,7 +87,16 @@ export default class Enroll extends Component {
         }
 
         if(formIsValid) {
-            this.resetFormSuccess();
+            firebasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once('value')
+            .then((snapshot) => {
+                if(snapshot.val() === null) {
+                    firebasePromotions.push(dataToSubmit);
+                    this.resetFormSuccess(true);
+
+                } else {
+                    this.resetFormSuccess(false);
+                }
+            })
 
         } else {
             this.setState({
